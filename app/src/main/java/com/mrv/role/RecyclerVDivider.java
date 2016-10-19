@@ -135,6 +135,10 @@ public class RecyclerVDivider extends RecyclerView.ItemDecoration {
         return true;
     }
 
+    /**
+     * @param adapter RecyclerView.Adapter
+     * @return 当前遍历Item所处列数
+     */
     private int getSpanIndex(RecyclerView.Adapter adapter) {
         if (adapter instanceof BaseRVAdapter) {
             return ((BaseRVAdapter) adapter).mSpanIndex + 1;
@@ -142,6 +146,11 @@ public class RecyclerVDivider extends RecyclerView.ItemDecoration {
         return 0;
     }
 
+    /**
+     * @param adapter   RecyclerView.Adapter
+     * @param spanCount 最大可显示列数
+     * @return 所需绘制底部分割线的最大行数（除去底部视图以及最后一排数据）
+     */
     private int getMaxRaw(RecyclerView.Adapter adapter, int spanCount) {
         int childCount = adapter.getItemCount();
         int maxRawSize = childCount - childCount % spanCount;
@@ -150,8 +159,7 @@ public class RecyclerVDivider extends RecyclerView.ItemDecoration {
             BaseRVAdapter baseRVAdapter = (BaseRVAdapter) adapter;
 
             if (null != baseRVAdapter.mFooterViews && null != baseRVAdapter.mHeaderViews) {
-                childCount -= baseRVAdapter.mFooterViews.size();
-                childCount -= baseRVAdapter.mHeaderViews.size();
+                childCount = baseRVAdapter.mList.size();
                 maxRawSize = childCount - childCount % spanCount;
                 maxRawSize += baseRVAdapter.mHeaderViews.size();
             }
@@ -159,6 +167,10 @@ public class RecyclerVDivider extends RecyclerView.ItemDecoration {
         return maxRawSize;
     }
 
+    /**
+     * @param adapter RecyclerView.Adapter
+     * @return true_表示当前为数据Item，false_标识当前为头部/底部View
+     */
     private boolean getItemState(RecyclerView.Adapter adapter) {
         if (adapter instanceof BaseRVAdapter) {
             return ((BaseRVAdapter) adapter).isMainItem;

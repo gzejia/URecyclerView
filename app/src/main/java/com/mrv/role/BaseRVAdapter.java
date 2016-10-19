@@ -34,8 +34,10 @@ public abstract class BaseRVAdapter<T> extends RecyclerView.Adapter<BaseViewHold
     }
 
     public void updateAdapter(@NonNull List<T> list) {
-        mList = list;
+        mList.clear();
+        mList.addAll(list);
         notifyDataSetChanged();
+        // notifyItemRangeChanged(startIndex(0), mList.size());
     }
 
     public T getData(int position) {
@@ -45,38 +47,42 @@ public abstract class BaseRVAdapter<T> extends RecyclerView.Adapter<BaseViewHold
     public void updateData(int position, T object) {
         mList.set(position, object);
 
-        int updateIndex = position + mHeaderViews.size();
+        int updateIndex = startIndex(position);
         notifyItemChanged(updateIndex);
         notifyItemRangeChanged(updateIndex, mList.size());
     }
 
     public void cleanData() {
+        int cleanIndex = mHeaderViews.size();
+        notifyItemRangeRemoved(cleanIndex, mList.size());
         mList.clear();
-        notifyDataSetChanged();
     }
 
     public void addData(int position, T object) {
+        int startIndex = startIndex(position);
         mList.add(position, object);
 
-        int addIndex = position + mHeaderViews.size();
-        notifyItemInserted(addIndex);
-        notifyItemRangeChanged(addIndex, mList.size());
+        notifyItemInserted(startIndex);
+        notifyItemRangeChanged(startIndex, mList.size());
     }
 
-    public void addDataLs(int position, @NonNull List<T> list) {
+    public void addDataLs(final int position, @NonNull List<T> list) {
+        int index = position;
         for (T data : list) {
-            addData(position, data);
-            ++position;
+            mList.add(index, data);
+            ++index;
         }
+        int addIndex = startIndex(position);
+        notifyItemRangeInserted(addIndex, list.size());
+        notifyItemRangeChanged(addIndex, mList.size());
     }
 
     public void removeData(int position) {
         if (mList.size() <= position) return;
 
         mList.remove(position);
-        int removeIndex = position + mHeaderViews.size();
-        notifyItemRemoved(removeIndex);
-        notifyItemRangeChanged(removeIndex, mList.size());
+        notifyItemRemoved(startIndex(position));
+        notifyItemRangeChanged(startIndex(position), mList.size());
     }
 
     public void addHeaderView(@NonNull View headerView) {
@@ -97,6 +103,10 @@ public abstract class BaseRVAdapter<T> extends RecyclerView.Adapter<BaseViewHold
     public void addFooterViews(@NonNull List<View> footerViews) {
         mFooterViews.addAll(footerViews);
         notifyDataSetChanged();
+    }
+
+    private int startIndex(int doneIndex) {
+        return doneIndex + mHeaderViews.size();
     }
 
     /**
@@ -180,29 +190,6 @@ public abstract class BaseRVAdapter<T> extends RecyclerView.Adapter<BaseViewHold
         }
     }
 
-    @Override
-    public void onViewAttachedToWindow(BaseViewHolder holder) {
-        super.onViewAttachedToWindow(holder);
-        ViewGroup.LayoutParams lp = holder.itemView.getLayoutParams();
-
-        if (null == lp) return;
-
-        if (lp instanceof GridLayoutManager.LayoutParams) {
-            GridLayoutManager.LayoutParams p = (GridLayoutManager.LayoutParams) lp;
-            mSpanIndex = p.getSpanIndex();
-        } else if (lp instanceof StaggeredGridLayoutManager.LayoutParams) {
-            StaggeredGridLayoutManager.LayoutParams p = (StaggeredGridLayoutManager.LayoutParams) lp;
-            mSpanIndex = p.getSpanIndex();
-
-            System.out.println("mSpanIndex: " + mSpanIndex);
-
-            if (getItemViewType(holder.getLayoutPosition()) != TYPE_NORMAL) {
-                p.setFullSpan(true);
-            }
-        }
-        isMainItem = getItemViewType(holder.getLayoutPosition()) == TYPE_NORMAL;
-    }
-
     /**
      * @see RecyclerVDivider
      * <ul>判断是否添加分割符的标识
@@ -217,6 +204,24 @@ public abstract class BaseRVAdapter<T> extends RecyclerView.Adapter<BaseViewHold
      * 提示：另外使用分割符的情况下可删除该变量
      */
     public int mSpanIndex;
+
+    @Override
+    public void onViewAttachedToWindow(BaseViewHolder holder) {
+        super.onViewAttachedToWindow(holder);
+        ViewGroup.LayoutParams lp = holder.itemView.getLayoutParams();
+
+        if (null == lp) return;
+        isMainItem = getItemViewType(holder.getLayoutPosition()) == TYPE_NORMAL;
+
+        if (lp instanceof GridLayoutManager.LayoutParams) {
+            GridLayoutManager.LayoutParams p = (GridLayoutManager.LayoutParams) lp;
+            mSpanIndex = p.getSpanIndex();
+        } else if (lp instanceof StaggeredGridLayoutManager.LayoutParams) {
+            StaggeredGridLayoutManager.LayoutParams p = (StaggeredGridLayoutManager.LayoutParams) lp;
+            mSpanIndex = p.getSpanIndex();
+            p.setFullSpan(!isMainItem);
+        }
+    }
 
     private OnItemClickListener mOnItemClickListener;
 

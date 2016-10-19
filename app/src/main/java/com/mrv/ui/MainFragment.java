@@ -100,7 +100,7 @@ public class MainFragment extends Fragment {
     public List<TestModel> getDataLs(String testStr, int size) {
         List<TestModel> strLs = new ArrayList<>();
         for (int i = 1; i <= size; i++) {
-            strLs.add(getData(testStr));
+            strLs.add(getData(testStr + i));
         }
         return strLs;
     }
@@ -108,12 +108,14 @@ public class MainFragment extends Fragment {
     public void addRvData() {
         if (null != mAdapter) {
             mAdapter.addData(0, getData("MRV_ADD"));
+            mMainRv.scrollToPosition(mAdapter.mHeaderViews.size());
         }
     }
 
     public void addRvDataLs() {
         if (null != mAdapter) {
             mAdapter.addDataLs(0, getDataLs("MRV_ADD", 2));
+            mMainRv.scrollToPosition(mAdapter.mHeaderViews.size());
         }
     }
 
