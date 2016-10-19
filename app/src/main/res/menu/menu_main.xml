@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:tools="http://schemas.android.com/tools"
+      tools:context=".MainActivity">
+
+    <item android:id="@+id/action_add"
+          android:title="@string/item_insert"
+          android:orderInCategory="80"
+          android:icon="@drawable/btn_item_add"
+          app:showAsAction="always" />
+
+    <item android:id="@+id/action_adds"
+          android:title="@string/item_insert"
+          android:orderInCategory="80"
+          android:icon="@drawable/btn_item_adds"
+          app:showAsAction="always" />
+
+    <item android:id="@+id/action_reduce"
+          android:title="@string/item_remove"
+          android:orderInCategory="90"
+          android:icon="@drawable/btn_item_reduce"
+          app:showAsAction="always" />
+
+    <item android:id="@+id/action_refresh"
+          android:title="@string/item_refresh"
+          android:orderInCategory="90"
+          android:icon="@drawable/btn_item_refresh"
+          app:showAsAction="always" />
+</menu>

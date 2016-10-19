@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="recycle_view">
+        <attr name="fixSize" format="boolean" />
+        <attr name="spanCount" format="integer" />
+        <attr name="divider" format="reference"/>
+        <attr name="dividerLeftSpace" format="integer" />
+        <attr name="dividerRightSpace" format="integer" />
+        <attr name="dividerTopSpace" format="integer" />
+        <attr name="dividerBottomSpace" format="integer" />
+        <attr name="dividerSpaceColor" format="color" />
+        <attr name="type">
+            <flag name="list" value="0" />
+            <flag name="grid" value="1" />
+            <flag name="staggeredGrid" value="2" />
+        </attr>
+        <attr name="orientation">
+            <flag name="vertical" value="1" />
+            <flag name="horizontal" value="0" />
+        </attr>
+    </declare-styleable>
+</resources>

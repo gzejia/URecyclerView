@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="black">#0D0D0D</color>
+    <color name="gray">#ACACAC</color>
+    <color name="white">#F8F8F8</color>
+    <color name="whitePress">#DFDFDF</color>
+    <color name="origin">#ff8400</color>
+    <color name="originPress">#FF6201</color>
+</resources>
