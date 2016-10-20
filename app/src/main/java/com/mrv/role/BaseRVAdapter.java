@@ -27,6 +27,7 @@ public abstract class BaseRVAdapter<T> extends RecyclerView.Adapter<BaseViewHold
     public List<T> mList = new ArrayList<>();
     public List<View> mHeaderViews = new ArrayList<>();
     public List<View> mFooterViews = new ArrayList<>();
+    public boolean isCloseItemAnim;
 
     public BaseRVAdapter(Context context, @NonNull List<T> list) {
         this.mList = list;
@@ -47,42 +48,74 @@ public abstract class BaseRVAdapter<T> extends RecyclerView.Adapter<BaseViewHold
     public void updateData(int position, T object) {
         mList.set(position, object);
 
-        int updateIndex = startIndex(position);
-        notifyItemChanged(updateIndex);
-        notifyItemRangeChanged(updateIndex, mList.size());
+        if (isCloseItemAnim) {
+            notifyDataSetChanged();
+        } else {
+            int updateIndex = startIndex(position);
+            notifyItemChanged(updateIndex);
+            notifyItemRangeChanged(updateIndex, mList.size());
+        }
     }
 
     public void cleanData() {
-        int cleanIndex = mHeaderViews.size();
-        notifyItemRangeRemoved(cleanIndex, mList.size());
-        mList.clear();
+        if (!isCloseItemAnim) {
+            mList.clear();
+            notifyDataSetChanged();
+        } else {
+            int cleanIndex = mHeaderViews.size();
+            notifyItemRangeRemoved(cleanIndex, mList.size());
+            mList.clear();
+            notifyItemRangeChanged(cleanIndex, mList.size());
+        }
     }
 
     public void addData(int position, T object) {
         int startIndex = startIndex(position);
         mList.add(position, object);
 
-        notifyItemInserted(startIndex);
-        notifyItemRangeChanged(startIndex, mList.size());
+        if (isCloseItemAnim) {
+            notifyDataSetChanged();
+        } else {
+            notifyItemInserted(startIndex);
+            notifyItemRangeChanged(startIndex, mList.size());
+        }
+    }
+
+    public void addDataLs(@NonNull List<T> list) {
+        int addIndex = startIndex(mList.size());
+        mList.addAll(list);
+
+        if (isCloseItemAnim) {
+            notifyDataSetChanged();
+        } else {
+            notifyItemRangeInserted(addIndex, list.size());
+            notifyItemRangeChanged(addIndex, mList.size());
+        }
     }
 
     public void addDataLs(final int position, @NonNull List<T> list) {
-        int index = position;
-        for (T data : list) {
-            mList.add(index, data);
-            ++index;
+        mList.addAll(position, list);
+
+        if (isCloseItemAnim) {
+            notifyDataSetChanged();
+        } else {
+            int addIndex = startIndex(position);
+            notifyItemRangeInserted(addIndex, list.size());
+            notifyItemRangeChanged(addIndex, mList.size());
         }
-        int addIndex = startIndex(position);
-        notifyItemRangeInserted(addIndex, list.size());
-        notifyItemRangeChanged(addIndex, mList.size());
     }
 
     public void removeData(int position) {
         if (mList.size() <= position) return;
 
-        mList.remove(position);
-        notifyItemRemoved(startIndex(position));
-        notifyItemRangeChanged(startIndex(position), mList.size());
+        if (isCloseItemAnim) {
+            mList.remove(position);
+            notifyDataSetChanged();
+        } else {
+            notifyItemRemoved(startIndex(position));
+            mList.remove(position);
+            notifyItemRangeChanged(startIndex(position), mList.size());
+        }
     }
 
     public void addHeaderView(@NonNull View headerView) {

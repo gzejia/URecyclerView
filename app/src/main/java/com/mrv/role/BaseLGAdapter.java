@@ -46,10 +46,7 @@ public abstract class BaseLGAdapter<T> extends BaseAdapter {
     }
 
     public void addDataLs(int position, @NonNull List<T> list) {
-        for (T data : list) {
-            this.mList.add(position, data);
-            ++position;
-        }
+        this.mList.addAll(position, list);
         notifyDataSetChanged();
     }
 
