@@ -2,7 +2,7 @@
 1. 隐藏列表添加头部（底部）View出现的分割线
 2. 解决瀑布流Item项高度差较大的情况下导致的分割线绘制错乱现象
 
-# 重定义MyRecycleView属性使用说明
+# 自定义MyRecycleView属性使用说明
 | Name | Format | Function|
 |:----:|:----:| :-----|
 | fixSize | boolean | 设置true提升性能，默认true |
@@ -16,3 +16,7 @@
 | dividerSpaceColor| color | 分隔符底部颜色，默认无 |
 | type| flag | list：列表；grid：网格；staggeredGrid：瀑布流 |
 | orientation| flag | vertical：垂直方向延伸； horizontal：水平方向延伸|
+
+# 效果展示
+![RecycleView基本使用](http://img.blog.csdn.net/20161019131321402)
+![还可以的RecycleView](http://img.blog.csdn.net/20161019173301926)
