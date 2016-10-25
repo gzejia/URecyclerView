@@ -7,46 +7,74 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 绑定ViewPager使用的Fragment适配器
+ *
+ * @author gzejia 978862664@qq.com
+ */
 public class BaseFraAdapter extends FragmentStatePagerAdapter {
 
-    private List<String> tabTitleLv = new ArrayList<>();
-    private List<Fragment> fragmentLv = new ArrayList<>();
+    /**
+     * 标签栏显示文本集合
+     */
+    public List<String> mTabTitleLv = new ArrayList<>();
 
+    /**
+     * 绑定Fragment集合
+     */
+    public List<Fragment> mFragmentLv = new ArrayList<>();
+
+    /**
+     * 记录Fragment集合大小
+     */
+    private int mChildCount = 0;
+
+    /**
+     * 构造器
+     *
+     * @param fm           Fragment控制器
+     * @param fragmentList Fragment集合
+     * @param tabTitleList 标签栏显示文本集合
+     */
     public BaseFraAdapter(FragmentManager fm, List<Fragment> fragmentList,
                           List<String> tabTitleList) {
         super(fm);
-        this.tabTitleLv.addAll(tabTitleList);
-        this.fragmentLv.addAll(fragmentList);
+        this.mTabTitleLv.addAll(tabTitleList);
+        this.mFragmentLv.addAll(fragmentList);
     }
 
+    /**
+     * 更新Fragment显示
+     *
+     * @param fragmentList Fragment集合
+     * @param tabTitleList 标签栏显示文本集合
+     */
     public void updateAdapter(List<Fragment> fragmentList, List<String> tabTitleList) {
-        this.tabTitleLv.clear();
-        this.fragmentLv.clear();
-        this.tabTitleLv.addAll(tabTitleList);
-        this.fragmentLv.addAll(fragmentList);
+        this.mTabTitleLv.clear();
+        this.mFragmentLv.clear();
+        this.mTabTitleLv.addAll(tabTitleList);
+        this.mFragmentLv.addAll(fragmentList);
         notifyDataSetChanged();
     }
 
     public List<Fragment> getFragmentLv() {
-        return fragmentLv;
+        return mFragmentLv;
     }
 
     @Override
     public int getCount() {
-        return fragmentLv.size();
+        return mFragmentLv.size();
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return tabTitleLv.get(position % tabTitleLv.size());
+        return mTabTitleLv.get(position % mTabTitleLv.size());
     }
 
     @Override
     public Fragment getItem(int position) {
-        return fragmentLv.get(position);
+        return mFragmentLv.get(position);
     }
-
-    private int mChildCount = 0;
 
     @Override
     public void notifyDataSetChanged() {

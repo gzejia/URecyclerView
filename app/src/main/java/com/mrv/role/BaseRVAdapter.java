@@ -13,27 +13,78 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * RecycleView 适配器，参考实现 <link>http://blog.csdn.net/qibin0506/article/details/49716795</link>
+ * RecycleView 适配器，参考实现 http://blog.csdn.net/qibin0506/article/details/49716795
  *
  * @author gzejia 978862664@qq.com
  */
 public abstract class BaseRVAdapter<T> extends RecyclerView.Adapter<BaseViewHolder> {
 
+    /**
+     * 标记Item类型为常规数据类型
+     */
     public static final int TYPE_NORMAL = 0;
+
+    /**
+     * 标记Item类型为头部视图类型
+     */
     public static final int TYPE_HEADER = 1;
+
+    /**
+     * 标记Item类型为底部视图类型
+     */
     public static final int TYPE_FOOTER = -1;
 
+    /**
+     * 上下文
+     */
     public Context mContext;
+
+    /**
+     * 列表项数据集合
+     */
     public List<T> mList = new ArrayList<>();
+
+    /**
+     * 列表项头部视图集合
+     */
     public List<View> mHeaderViews = new ArrayList<>();
+
+    /**
+     * 列表项底部视图集合
+     */
     public List<View> mFooterViews = new ArrayList<>();
+
+    /**
+     * true：启动列表项更新动画，false：关闭列表项更新动画
+     */
     public boolean isCloseItemAnim;
 
+    /**
+     * 构造器
+     *
+     * @param context 上下文
+     * @param list    数据集合
+     */
     public BaseRVAdapter(Context context, @NonNull List<T> list) {
         this.mList = list;
         this.mContext = context;
     }
 
+    /**
+     * 获取数据
+     *
+     * @param position 数据索引
+     * @return 数据对象
+     */
+    public T getData(int position) {
+        return mList.get(position);
+    }
+
+    /**
+     * 更新整体数据
+     *
+     * @param list 数据集合
+     */
     public void updateAdapter(@NonNull List<T> list) {
         mList.clear();
         mList.addAll(list);
@@ -41,10 +92,12 @@ public abstract class BaseRVAdapter<T> extends RecyclerView.Adapter<BaseViewHold
         // notifyItemRangeChanged(startIndex(0), mList.size());
     }
 
-    public T getData(int position) {
-        return mList.get(position);
-    }
-
+    /**
+     * 更新单条数据
+     *
+     * @param position 数据索引
+     * @param object   新的数据
+     */
     public void updateData(int position, T object) {
         mList.set(position, object);
 
@@ -57,6 +110,9 @@ public abstract class BaseRVAdapter<T> extends RecyclerView.Adapter<BaseViewHold
         }
     }
 
+    /**
+     * 清除数据
+     */
     public void cleanData() {
         if (!isCloseItemAnim) {
             mList.clear();
@@ -69,42 +125,11 @@ public abstract class BaseRVAdapter<T> extends RecyclerView.Adapter<BaseViewHold
         }
     }
 
-    public void addData(int position, T object) {
-        int startIndex = startIndex(position);
-        mList.add(position, object);
-
-        if (isCloseItemAnim) {
-            notifyDataSetChanged();
-        } else {
-            notifyItemInserted(startIndex);
-            notifyItemRangeChanged(startIndex, mList.size());
-        }
-    }
-
-    public void addDataLs(@NonNull List<T> list) {
-        int addIndex = startIndex(mList.size());
-        mList.addAll(list);
-
-        if (isCloseItemAnim) {
-            notifyDataSetChanged();
-        } else {
-            notifyItemRangeInserted(addIndex, list.size());
-            notifyItemRangeChanged(addIndex, mList.size());
-        }
-    }
-
-    public void addDataLs(final int position, @NonNull List<T> list) {
-        mList.addAll(position, list);
-
-        if (isCloseItemAnim) {
-            notifyDataSetChanged();
-        } else {
-            int addIndex = startIndex(position);
-            notifyItemRangeInserted(addIndex, list.size());
-            notifyItemRangeChanged(addIndex, mList.size());
-        }
-    }
-
+    /**
+     * 移除数据
+     *
+     * @param position 数据索引
+     */
     public void removeData(int position) {
         if (mList.size() <= position) return;
 
@@ -118,26 +143,106 @@ public abstract class BaseRVAdapter<T> extends RecyclerView.Adapter<BaseViewHold
         }
     }
 
-    public void addHeaderView(@NonNull View headerView) {
-        mHeaderViews.add(headerView);
-        notifyDataSetChanged();
+    /**
+     * 添加数据集
+     *
+     * @param position 位置索引
+     * @param list     数据集合
+     */
+    public void addDataLs(final int position, @NonNull List<T> list) {
+        mList.addAll(position, list);
+
+        if (isCloseItemAnim) {
+            notifyDataSetChanged();
+        } else {
+            int addIndex = startIndex(position);
+            notifyItemRangeInserted(addIndex, list.size());
+            notifyItemRangeChanged(addIndex, mList.size());
+        }
     }
 
+    /**
+     * 添加数据集，默认底部追加
+     *
+     * @param list 数据集合
+     */
+    public void addDataLs(@NonNull List<T> list) {
+        addDataLs(startIndex(mList.size()), list);
+    }
+
+    /**
+     * 添加数据
+     *
+     * @param position 位置索引
+     * @param object   数据对象
+     */
+    public void addData(int position, T object) {
+        int startIndex = startIndex(position);
+        mList.add(position, object);
+
+        if (isCloseItemAnim) {
+            notifyDataSetChanged();
+        } else {
+            notifyItemInserted(startIndex);
+            notifyItemRangeChanged(startIndex, mList.size());
+        }
+    }
+
+    /**
+     * 添加数据，默认底部追加
+     *
+     * @param object 数据对象
+     */
+    public void addData(T object) {
+        addData(startIndex(mList.size()), object);
+    }
+
+    /**
+     * 添加头部视图集
+     *
+     * @param headerViews 视图集合
+     */
     public void addHeaderViews(@NonNull List<View> headerViews) {
         mHeaderViews.addAll(headerViews);
         notifyDataSetChanged();
     }
 
-    public void addFooterView(@NonNull View footerView) {
-        mFooterViews.add(footerView);
+    /**
+     * 添加头部视图
+     *
+     * @param headerView 视图对象
+     */
+    public void addHeaderView(@NonNull View headerView) {
+        mHeaderViews.add(headerView);
         notifyDataSetChanged();
     }
 
+    /**
+     * 添加底部视图集
+     *
+     * @param footerViews 视图集合
+     */
     public void addFooterViews(@NonNull List<View> footerViews) {
         mFooterViews.addAll(footerViews);
         notifyDataSetChanged();
     }
 
+    /**
+     * 添加底部视图
+     *
+     * @param footerView 视图对象
+     */
+    public void addFooterView(@NonNull View footerView) {
+        mFooterViews.add(footerView);
+        notifyDataSetChanged();
+    }
+
+    /**
+     * 准确获取数据插入索引位置
+     *
+     * @param doneIndex 指定索引位置
+     * @return 正确索引位置，包括头部视图
+     */
     private int startIndex(int doneIndex) {
         return doneIndex + mHeaderViews.size();
     }

@@ -14,7 +14,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 /**
- * RecycleView 分割符,参考实现 <link>http://blog.csdn.net/lmj623565791/article/details/45059587</link>
+ * RecycleView 分割符,参考实现 http://blog.csdn.net/lmj623565791/article/details/45059587
  *
  * @author gzejia 978862664@qq.com
  */
@@ -25,7 +25,9 @@ public class RecyclerVDivider extends RecyclerView.ItemDecoration {
     private int mSpaceColor;
 
     /**
-     * @param context src/main/res/values/styles <item name="android:listDivider"/>
+     * 构造器
+     *
+     * @param context 上下文
      */
     public RecyclerVDivider(Context context) {
         TypedArray a = context.obtainStyledAttributes(new int[]{android.R.attr.listDivider});
@@ -34,47 +36,66 @@ public class RecyclerVDivider extends RecyclerView.ItemDecoration {
     }
 
     /**
-     * @param drawable src/main/res/drawable
+     * 构造器
+     *
+     * @param drawable 分隔符资源
      */
     public RecyclerVDivider(Drawable drawable) {
         mDividerDraw = drawable;
     }
 
     /**
-     * @param leftSpace 左侧间距
+     * 设置左侧间距
+     *
+     * @param leftSpace 间距大小
      */
     public void setLeftSpace(int leftSpace) {
         mLeftSpace = leftSpace;
     }
 
     /**
-     * @param rightSpace 右侧间距
+     * 设置右侧间距
+     *
+     * @param rightSpace 间距大小
      */
     public void setRightSpace(int rightSpace) {
         mRightSpace = rightSpace;
     }
 
     /**
-     * @param topSpace 顶部间距
+     * 设置顶部间距
+     *
+     * @param topSpace 间距大小
      */
     public void setTopSpace(int topSpace) {
         mTopSpace = topSpace;
     }
 
     /**
-     * @param bottomSpace 底部间距
+     * 设置底部间距
+     *
+     * @param bottomSpace 间距大小
      */
     public void setBottomSpace(int bottomSpace) {
         mBottomSpace = bottomSpace;
     }
 
     /**
-     * @param spaceColor 分割线间距颜色
+     * 设置分隔符颜色
+     *
+     * @param spaceColor 色值Id
      */
     public void setSpaceColor(int spaceColor) {
         mSpaceColor = spaceColor;
     }
 
+    /**
+     * 绘制分割符
+     *
+     * @param c      画布
+     * @param parent 列表视图
+     * @param state  列表所处状态
+     */
     @Override
     public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
         if (0 != mSpaceColor) c.drawColor(mSpaceColor);
@@ -82,17 +103,12 @@ public class RecyclerVDivider extends RecyclerView.ItemDecoration {
         drawVertical(c, parent);
     }
 
-    private int getSpanCount(RecyclerView parent) {
-        int spanCount = -1;
-        LayoutManager layoutManager = parent.getLayoutManager();
-        if (layoutManager instanceof GridLayoutManager) {
-            spanCount = ((GridLayoutManager) layoutManager).getSpanCount();
-        } else if (layoutManager instanceof StaggeredGridLayoutManager) {
-            spanCount = ((StaggeredGridLayoutManager) layoutManager).getSpanCount();
-        }
-        return spanCount;
-    }
-
+    /**
+     * 绘制水平分隔符
+     *
+     * @param c      画布
+     * @param parent 列表视图
+     */
     public void drawHorizontal(Canvas c, RecyclerView parent) {
         int childCount = parent.getChildCount();
         for (int i = 0; i < childCount; i++) {
@@ -109,6 +125,12 @@ public class RecyclerVDivider extends RecyclerView.ItemDecoration {
         }
     }
 
+    /**
+     * 绘制垂直分隔符
+     *
+     * @param c      画布
+     * @param parent 列表视图
+     */
     public void drawVertical(Canvas c, RecyclerView parent) {
         final int childCount = parent.getChildCount();
         for (int i = 0; i < childCount; i++) {
@@ -124,6 +146,12 @@ public class RecyclerVDivider extends RecyclerView.ItemDecoration {
         }
     }
 
+    /**
+     * 判断当前列表方向是否为垂直类型
+     *
+     * @param layoutManager 布局管理器
+     * @return true：垂直类型列表，false：水平类型列表
+     */
     private boolean isVertical(LayoutManager layoutManager) {
         if (layoutManager instanceof GridLayoutManager) {
             return ((GridLayoutManager) layoutManager).getOrientation() == LinearLayout.VERTICAL;
@@ -136,8 +164,27 @@ public class RecyclerVDivider extends RecyclerView.ItemDecoration {
     }
 
     /**
-     * @param adapter RecyclerView.Adapter
-     * @return 当前遍历Item所处列数
+     * 获取列表显示列数
+     *
+     * @param parent 列表视图
+     * @return 当前显示列数
+     */
+    private int getSpanCount(RecyclerView parent) {
+        int spanCount = -1;
+        LayoutManager layoutManager = parent.getLayoutManager();
+        if (layoutManager instanceof GridLayoutManager) {
+            spanCount = ((GridLayoutManager) layoutManager).getSpanCount();
+        } else if (layoutManager instanceof StaggeredGridLayoutManager) {
+            spanCount = ((StaggeredGridLayoutManager) layoutManager).getSpanCount();
+        }
+        return spanCount;
+    }
+
+    /**
+     * 获取当前遍历Item所处列数
+     *
+     * @param adapter 列表适配器
+     * @return 列数索引
      */
     private int getSpanIndex(RecyclerView.Adapter adapter) {
         if (adapter instanceof BaseRVAdapter) {
@@ -147,9 +194,11 @@ public class RecyclerVDivider extends RecyclerView.ItemDecoration {
     }
 
     /**
-     * @param adapter   RecyclerView.Adapter
-     * @param spanCount 最大可显示列数
-     * @return 所需绘制底部分割线的最大行数（除去底部视图以及最后一排数据）
+     * 获取当前列表可现实最大行值
+     *
+     * @param adapter   列表适配器
+     * @param spanCount 当前显示列数
+     * @return 最大行值（除底部视图以及最后一排数据）
      */
     private int getMaxRaw(RecyclerView.Adapter adapter, int spanCount) {
         int childCount = adapter.getItemCount();
@@ -168,8 +217,10 @@ public class RecyclerVDivider extends RecyclerView.ItemDecoration {
     }
 
     /**
-     * @param adapter RecyclerView.Adapter
-     * @return true_表示当前为数据Item，false_标识当前为头部/底部View
+     * 获取当前Item状态
+     *
+     * @param adapter 列表适配器
+     * @return true_数据Item，false_头部/底部View
      */
     private boolean getItemState(RecyclerView.Adapter adapter) {
         if (adapter instanceof BaseRVAdapter) {
