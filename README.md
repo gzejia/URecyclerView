@@ -24,5 +24,5 @@
 | orientation | enum | vertical垂直方向类型，horizontal水平方向列表 |
 
 # 效果展示
-![RecycleView基本使用](http://img.blog.csdn.net/20161019131321402)
-![还可以的RecycleView](http://img.blog.csdn.net/20161019173301926)
+![RecycleView基本使用v1](http://img.blog.csdn.net/20161019173301926)
+![RecycleView基本使用v2](http://img.blog.csdn.net/20170213175444757?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
