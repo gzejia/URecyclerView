@@ -1,21 +1,27 @@
-# MyRecycleView-Dhf实现
-1. 隐藏列表添加头部（底部）View出现的分割线
-2. 解决瀑布流Item项高度差较大的情况下导致的分割线绘制错乱现象
+# URecyclerView 实现
+1. RecyclerView 中 Adapter、ViewHolder 的使用
+2. RecyclerView 展示分割符、头部与顶部 View （集合）
+3. 下拉刷新, 上拉加载更多
+4. 自定义上拉加载更多动画，空数据提示信息
 
-# 自定义MyRecycleView属性使用说明
-| Name | Format | Function|
-|:----:|:----:| :-----|
-| fixSize | boolean | 设置true提升性能，默认true |
-| spanCount | integer | 网格以及流布局显示最大列数，默认2 |
-| divider | reference | 分割符资源Id，默认没有分割符 |
-| dividerLeftSpace| integer | 分隔符左边距，默认0，单位dp |
-| dividerRightSpace| integer | 分隔符左边距，默认0，单位dp |
-| dividerTopSpace| integer | 分隔符顶部边距，默认0，单位dp |
-| dividerBottomSpace| integer | 分隔符底部边距，默认0，单位dp |
-| dividerSpaceColor| color | 分隔符底部颜色，默认无 |
-| dividerSpaceColor| color | 分隔符底部颜色，默认无 |
-| type| flag | list：列表；grid：网格；staggeredGrid：瀑布流 |
-| orientation| flag | vertical：垂直方向延伸； horizontal：水平方向延伸|
+# 预设属性值设置
+| Name | Format| Function |
+| :-----: | :-----: | :-----: |
+| colors | reference | 下拉刷新颜色变换数组array，默认无 |
+| isFixSize | boolean | 是否固定列表项视图大小，默认固定 |
+| loadMoreType | enum | auto主动加载更多，autoHide主动加载更多并隐藏，click点击加载更多，clickHide点击加载更多并隐藏，默认不提供加载更多 |
+| emptyType | enum | none不显示空数据提示，text显示空数据文本提示，默认none |
+| spanCount | integer | 网格布局显示列数，默认2列 |
+| divider_marginLeft | reference | 分隔符对应资源Drawable |
+| divider_marginTop | dimension | 分隔符左边距，默认0 |
+| divider_marginRight | dimension | 分隔符右边距，默认0 |
+| divider_marginTop | dimension | 分隔符顶部边距，默认0 |
+| divider_marginBottom | dimension | 分隔符底部边距，默认0 |
+| divider_background | color | 分隔符边距底色，默认无 |
+| textNetworkFail | string/reference | 网络错误提示语 |
+| textDataEmpty | string/reference | 空数据内容提示语 |
+| layoutManagerType | enum | list列表类型，grid网格类型，staggeredGrid，瀑布流类型 |
+| orientation | enum | vertical垂直方向类型，horizontal水平方向列表 |
 
 # 效果展示
 ![RecycleView基本使用](http://img.blog.csdn.net/20161019131321402)
