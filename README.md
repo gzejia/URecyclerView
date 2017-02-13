@@ -28,5 +28,7 @@
 ![RecycleView基本使用v2](http://img.blog.csdn.net/20170213175444757?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
 
 # 项目解析地址
-No1. http://blog.csdn.net/gzejia/article/details/52858385
-No2. http://blog.csdn.net/gzejia/article/details/55007102
+
+RecyclerView使用攻略（助力篇） http://blog.csdn.net/gzejia/article/details/52858385
+
+RecyclerView使用攻略（刷新篇） http://blog.csdn.net/gzejia/article/details/55007102
