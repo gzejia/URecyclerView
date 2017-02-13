@@ -1,6 +1,8 @@
 <resources>
-    <string name="app_name">RecycleView</string>
+    <string name="app_name">URecycleView</string>
     <string name="item_insert">InsertItem</string>
     <string name="item_remove">RemoveItem</string>
     <string name="item_refresh">RefreshItem</string>
+    <string name="text_network_fail">网络不给力吖~</string>
+    <string name="text_data_empty">尝试下拉找回你的数据吧~</string>
 </resources>

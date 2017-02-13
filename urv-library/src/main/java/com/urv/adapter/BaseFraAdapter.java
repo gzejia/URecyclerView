@@ -1,4 +1,4 @@
-package com.mrv.role;
+package com.urv.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -9,8 +9,6 @@ import java.util.List;
 
 /**
  * 绑定ViewPager使用的Fragment适配器
- *
- * @author gzejia 978862664@qq.com
  */
 public class BaseFraAdapter extends FragmentStatePagerAdapter {
 
@@ -57,31 +55,53 @@ public class BaseFraAdapter extends FragmentStatePagerAdapter {
         notifyDataSetChanged();
     }
 
-    public List<Fragment> getFragmentLv() {
-        return mFragmentLv;
-    }
-
+    /**
+     * 获取Fragment集合大小
+     *
+     * @return 集合大小
+     */
     @Override
     public int getCount() {
         return mFragmentLv.size();
     }
 
+    /**
+     * 获取Fragment对应标签栏显示文本内容
+     *
+     * @param position Fragment索引
+     * @return 标签栏文本
+     */
     @Override
     public CharSequence getPageTitle(int position) {
         return mTabTitleLv.get(position % mTabTitleLv.size());
     }
 
+    /**
+     * 获取当前显示ViewPager下的Fragment
+     *
+     * @param position Fragment索引
+     * @return Fragment
+     */
     @Override
     public Fragment getItem(int position) {
         return mFragmentLv.get(position);
     }
 
+    /**
+     * 重写notifyDataSetChanged();以记录Fragment集合大小
+     */
     @Override
     public void notifyDataSetChanged() {
         mChildCount = getCount();
         super.notifyDataSetChanged();
     }
 
+    /**
+     * 重写getItemPosition();准确判断Fragment的位置
+     *
+     * @param object Fragment对象
+     * @return Fragment索引
+     */
     @Override
     public int getItemPosition(Object object) {
         if (mChildCount > 0) {

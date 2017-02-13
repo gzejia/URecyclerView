@@ -6,13 +6,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.mrv.role.MyRecyclerView
+    <com.urv.widget.URecyclerView
         android:id="@+id/main_rv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        mrv:divider="@drawable/recycle_view_divider2"
-        mrv:dividerSpaceColor="@color/white"
-        mrv:spanCount="3"
-        mrv:type="staggeredGrid"/>
+        mrv:divider_background="@color/white"
+        mrv:divider_drawable="@drawable/recycle_view_divider2"
+        mrv:layoutManagerType="staggeredGrid"
+        mrv:spanCount="3"/>
 
 </LinearLayout>

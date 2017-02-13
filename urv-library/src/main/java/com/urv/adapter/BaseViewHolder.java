@@ -1,7 +1,8 @@
-package com.mrv.role;
+package com.urv.adapter;
 
 import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.SparseArray;
 import android.view.View;
 import android.widget.Button;
@@ -99,6 +100,7 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
      * @param resId 图片资源Id
      */
     public void setImageResource(int id, int resId) {
+        if (resId <= 0) return;
         getImageView(id).setImageResource(resId);
     }
 
@@ -109,6 +111,7 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
      * @param bmp 图片资源Bitmap
      */
     public void setImageResource(int id, Bitmap bmp) {
+        if (null == bmp) return;
         getImageView(id).setImageBitmap(bmp);
     }
 
@@ -119,17 +122,19 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
      * @param charSequence 字符文本
      */
     public void setTextView(int id, CharSequence charSequence) {
+        if (TextUtils.isEmpty(charSequence)) charSequence = "";
+
         getTextView(id).setText(charSequence);
     }
 
     /**
      * 实例化View并设置是否可见
      *
-     * @param id           ViewId
-     * @param isVisibility true：可见，false：不可见
+     * @param id      ViewId
+     * @param visible <ul><li>View.VISIBLE</li> <li>View.INVISIBLE</li> <li>View.GONE</li></ul>
      */
-    public void setVisibility(int id, boolean isVisibility) {
-        getView(id).setVisibility(isVisibility ? View.VISIBLE : View.GONE);
+    public void setVisibility(int id, int visible) {
+        getView(id).setVisibility(visible);
     }
 
     /**

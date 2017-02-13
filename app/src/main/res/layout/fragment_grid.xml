@@ -6,16 +6,16 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.mrv.role.MyRecyclerView
+    <com.urv.widget.URecyclerView
         android:id="@+id/main_rv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
-        mrv:divider="@drawable/recycle_view_divider"
-        mrv:dividerBottomSpace="5"
-        mrv:dividerSpaceColor="@color/white"
-        mrv:dividerTopSpace="5"
-        mrv:spanCount="3"
-        mrv:type="grid"/>
+        mrv:divider_background="@color/white"
+        mrv:divider_drawable="@drawable/recycle_view_divider"
+        mrv:divider_marginBottom="5dp"
+        mrv:divider_marginTop="5dp"
+        mrv:layoutManagerType="grid"
+        mrv:spanCount="3"/>
 
 </LinearLayout>

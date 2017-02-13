@@ -1,4 +1,4 @@
-package com.mrv.role;
+package com.urv.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -13,15 +13,42 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.urv.adapter.BaseRVAdapter;
+
+
 /**
- * RecycleView 分割符,参考实现 http://blog.csdn.net/lmj623565791/article/details/45059587
- *
  * @author gzejia 978862664@qq.com
  */
-public class RecyclerVDivider extends RecyclerView.ItemDecoration {
+public class URecyclerDivider extends RecyclerView.ItemDecoration {
 
+    /**
+     * 分隔符资源
+     */
     private Drawable mDividerDraw;
-    private int mLeftSpace, mRightSpace, mTopSpace, mBottomSpace;
+
+    /**
+     * 分隔符左边距
+     */
+    private float mLeftSpace;
+
+    /**
+     * 分隔符右边距
+     */
+    private float mRightSpace;
+
+    /**
+     * 分隔符顶部边距
+     */
+    private float mTopSpace;
+
+    /**
+     * 分隔符底部边距
+     */
+    private float mBottomSpace;
+
+    /**
+     * 分隔符间距色值
+     */
     private int mSpaceColor;
 
     /**
@@ -29,7 +56,7 @@ public class RecyclerVDivider extends RecyclerView.ItemDecoration {
      *
      * @param context 上下文
      */
-    public RecyclerVDivider(Context context) {
+    public URecyclerDivider(Context context) {
         TypedArray a = context.obtainStyledAttributes(new int[]{android.R.attr.listDivider});
         mDividerDraw = a.getDrawable(0);
         a.recycle();
@@ -40,7 +67,7 @@ public class RecyclerVDivider extends RecyclerView.ItemDecoration {
      *
      * @param drawable 分隔符资源
      */
-    public RecyclerVDivider(Drawable drawable) {
+    public URecyclerDivider(Drawable drawable) {
         mDividerDraw = drawable;
     }
 
@@ -49,7 +76,7 @@ public class RecyclerVDivider extends RecyclerView.ItemDecoration {
      *
      * @param leftSpace 间距大小
      */
-    public void setLeftSpace(int leftSpace) {
+    public void setLeftSpace(float leftSpace) {
         mLeftSpace = leftSpace;
     }
 
@@ -58,7 +85,7 @@ public class RecyclerVDivider extends RecyclerView.ItemDecoration {
      *
      * @param rightSpace 间距大小
      */
-    public void setRightSpace(int rightSpace) {
+    public void setRightSpace(float rightSpace) {
         mRightSpace = rightSpace;
     }
 
@@ -67,7 +94,7 @@ public class RecyclerVDivider extends RecyclerView.ItemDecoration {
      *
      * @param topSpace 间距大小
      */
-    public void setTopSpace(int topSpace) {
+    public void setTopSpace(float topSpace) {
         mTopSpace = topSpace;
     }
 
@@ -76,7 +103,7 @@ public class RecyclerVDivider extends RecyclerView.ItemDecoration {
      *
      * @param bottomSpace 间距大小
      */
-    public void setBottomSpace(int bottomSpace) {
+    public void setBottomSpace(float bottomSpace) {
         mBottomSpace = bottomSpace;
     }
 
@@ -115,12 +142,12 @@ public class RecyclerVDivider extends RecyclerView.ItemDecoration {
             final View child = parent.getChildAt(i);
             final RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child
                     .getLayoutParams();
-            final int left = child.getLeft() - params.leftMargin + mLeftSpace;
-            final int right = child.getRight() + params.rightMargin
+            final float left = child.getLeft() - params.leftMargin + mLeftSpace;
+            final float right = child.getRight() + params.rightMargin
                     + mDividerDraw.getIntrinsicWidth() - mRightSpace;
             final int top = child.getBottom() + params.bottomMargin;
             final int bottom = top + mDividerDraw.getIntrinsicHeight();
-            mDividerDraw.setBounds(left, top, right, bottom);
+            mDividerDraw.setBounds((int) left, top, (int) right, bottom);
             mDividerDraw.draw(c);
         }
     }
@@ -137,11 +164,11 @@ public class RecyclerVDivider extends RecyclerView.ItemDecoration {
             final View child = parent.getChildAt(i);
             final RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child
                     .getLayoutParams();
-            final int top = child.getTop() - params.topMargin + mTopSpace;
-            final int bottom = child.getBottom() + params.bottomMargin - mBottomSpace;
+            final float top = child.getTop() - params.topMargin + mTopSpace;
+            final float bottom = child.getBottom() + params.bottomMargin - mBottomSpace;
             final int left = child.getRight() + params.rightMargin;
             final int right = left + mDividerDraw.getIntrinsicWidth();
-            mDividerDraw.setBounds(left, top, right, bottom);
+            mDividerDraw.setBounds(left, (int) top, right, (int) bottom);
             mDividerDraw.draw(c);
         }
     }
@@ -157,10 +184,9 @@ public class RecyclerVDivider extends RecyclerView.ItemDecoration {
             return ((GridLayoutManager) layoutManager).getOrientation() == LinearLayout.VERTICAL;
         } else if (layoutManager instanceof StaggeredGridLayoutManager) {
             return ((StaggeredGridLayoutManager) layoutManager).getOrientation() == LinearLayout.VERTICAL;
-        } else if (layoutManager instanceof LinearLayoutManager) {
+        } else {
             return ((LinearLayoutManager) layoutManager).getOrientation() == LinearLayout.VERTICAL;
         }
-        return true;
     }
 
     /**
@@ -170,7 +196,7 @@ public class RecyclerVDivider extends RecyclerView.ItemDecoration {
      * @return 当前显示列数
      */
     private int getSpanCount(RecyclerView parent) {
-        int spanCount = -1;
+        int spanCount = 1;
         LayoutManager layoutManager = parent.getLayoutManager();
         if (layoutManager instanceof GridLayoutManager) {
             spanCount = ((GridLayoutManager) layoutManager).getSpanCount();
@@ -194,26 +220,14 @@ public class RecyclerVDivider extends RecyclerView.ItemDecoration {
     }
 
     /**
-     * 获取当前列表可现实最大行值
+     * 获取当前列表可显示最大行值
      *
      * @param adapter   列表适配器
      * @param spanCount 当前显示列数
      * @return 最大行值（除底部视图以及最后一排数据）
      */
     private int getMaxRaw(RecyclerView.Adapter adapter, int spanCount) {
-        int childCount = adapter.getItemCount();
-        int maxRawSize = childCount - childCount % spanCount;
-
-        if (adapter instanceof BaseRVAdapter) {
-            BaseRVAdapter baseRVAdapter = (BaseRVAdapter) adapter;
-
-            if (null != baseRVAdapter.mFooterViews && null != baseRVAdapter.mHeaderViews) {
-                childCount = baseRVAdapter.mList.size();
-                maxRawSize = childCount - childCount % spanCount;
-                maxRawSize += baseRVAdapter.mHeaderViews.size();
-            }
-        }
-        return maxRawSize;
+        return adapter.getItemCount() / spanCount;
     }
 
     /**
@@ -229,17 +243,25 @@ public class RecyclerVDivider extends RecyclerView.ItemDecoration {
         return true;
     }
 
+    /**
+     * 获取列表Item项信息
+     *
+     * @param outRect      矩形边框
+     * @param itemPosition item索引
+     * @param parent       列表视图
+     */
     @Override
     public void getItemOffsets(Rect outRect, int itemPosition, RecyclerView parent) {
         LayoutManager layoutManager = parent.getLayoutManager();
         int spanCount = getSpanCount(parent);
+
         boolean isLastRaw = isVertical(layoutManager) ?
-                itemPosition + 1 >= getMaxRaw(parent.getAdapter(), spanCount) :
-                getSpanIndex(parent.getAdapter()) == spanCount;
+                itemPosition >= getMaxRaw(parent.getAdapter(), spanCount) - 1 :
+                getSpanIndex(parent.getAdapter()) >= spanCount;
 
         boolean isLastColum = isVertical(layoutManager) ?
                 spanCount == getSpanIndex(parent.getAdapter()) :
-                itemPosition + 1 >= getMaxRaw(parent.getAdapter(), spanCount);
+                itemPosition >= getMaxRaw(parent.getAdapter(), spanCount) - 1;
 
         if (getItemState(parent.getAdapter())) {
             outRect.set(0, 0,

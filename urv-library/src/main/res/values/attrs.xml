@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="recycle_view">
+        <attr name="colors" format="reference"/>
+        <attr name="isFixSize" format="boolean"/>
+        <attr name="loadMoreType">
+            <flag name="none" value="0"/>
+            <flag name="auto" value="1"/>
+            <flag name="autoHide" value="2"/>
+            <flag name="click" value="3"/>
+            <flag name="clickHide" value="4"/>
+        </attr>
+        <attr name="emptyType">
+            <flag name="none" value="0"/>
+            <flag name="text" value="1"/>
+        </attr>
+        <attr name="spanCount" format="integer"/>
+        <attr name="divider_drawable" format="reference"/>
+        <attr name="divider_marginLeft" format="dimension"/>
+        <attr name="divider_marginRight" format="dimension"/>
+        <attr name="divider_marginTop" format="dimension"/>
+        <attr name="divider_marginBottom" format="dimension"/>
+        <attr name="divider_background" format="color"/>
+        <attr name="textNetworkFail" format="string|reference"/>
+        <attr name="textDataEmpty" format="string|reference"/>
+        <attr name="layoutManagerType">
+            <flag name="list" value="0"/>
+            <flag name="grid" value="1"/>
+            <flag name="staggeredGrid" value="2"/>
+        </attr>
+        <attr name="orientation">
+            <flag name="horizontal" value="0"/>
+            <flag name="vertical" value="1"/>
+        </attr>
+    </declare-styleable>
+</resources>
+

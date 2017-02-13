@@ -10,7 +10,7 @@ import android.view.MenuItem;
 import android.view.Window;
 
 import com.mrv.R;
-import com.mrv.role.BaseFraAdapter;
+import com.urv.adapter.BaseFraAdapter;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -19,8 +19,19 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    /**
+     * 标签栏视图
+     */
     private TabLayout mMainTly;
+
+    /**
+     * 卡片视图
+     */
     private ViewPager mMainVp;
+
+    /**
+     * Fragment集合适配器
+     */
     private BaseFraAdapter mFraAdapter;
 
     @Override
@@ -31,20 +42,23 @@ public class MainActivity extends AppCompatActivity {
         initFragment();
     }
 
+    /**
+     * 视图实例化
+     */
     private void initView() {
         mMainTly = (TabLayout) findViewById(R.id.main_tly);
         mMainVp = (ViewPager) findViewById(R.id.main_vp);
     }
 
+    /**
+     * Fragment集实例化
+     */
     private void initFragment() {
-        int[] layoutIds = {R.layout.fragment_linear, R.layout.fragment_grid,
-                R.layout.fragment_staggered_grid, R.layout.fragment_linear_h,
-                R.layout.fragment_grid_h, R.layout.fragment_staggered_grid_h};
-        int[] itemLayoutIds = {R.layout.item_recycle_main, R.layout.item_recycle_main,
-                R.layout.item_recycle_main, R.layout.item_recycle_main_h,
-                R.layout.item_recycle_main_h, R.layout.item_recycle_main_h};
-        String[] mLayoutNames = {
-                "Linear", "Grid", "StaggeredGrid", "LinearH", "GridH", "StaggeredGridH"};
+        int[] layoutIds = {R.layout.fragment_linear2, R.layout.fragment_linear,
+                R.layout.fragment_grid, R.layout.fragment_staggered_grid};
+        int[] itemLayoutIds = {R.layout.item_recycle_vertical, R.layout.item_recycle_horizonal,
+                R.layout.item_recycle_vertical, R.layout.item_recycle_vertical};
+        String[] mLayoutNames = {"↓Linear↑", "↓Linear←", "Grid", "StaggeredGrid"};
 
         List<Fragment> fragments = new ArrayList<>();
         for (int i = 0, k = layoutIds.length; i < k; i++) {
@@ -90,16 +104,16 @@ public class MainActivity extends AppCompatActivity {
         MainFragment fragment = (MainFragment) mFraAdapter.getItem(mMainVp.getCurrentItem());
         switch (item.getItemId()) {
             case R.id.action_add:
-                fragment.addRvData();
-                break;
-            case R.id.action_adds:
-                fragment.addRvDataLs();
+                fragment.addData(1);
                 break;
             case R.id.action_reduce:
-                fragment.removeRvData();
+                fragment.removeData();
                 break;
             case R.id.action_refresh:
-                fragment.updateRvData();
+                fragment.updateData(20);
+                break;
+            case R.id.action_clean:
+                fragment.cleanData();
                 break;
         }
         return super.onOptionsItemSelected(item);

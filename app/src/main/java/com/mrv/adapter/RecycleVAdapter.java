@@ -7,9 +7,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.mrv.R;
-import com.mrv.bean.TestModel;
-import com.mrv.role.BaseRVAdapter;
-import com.mrv.role.BaseViewHolder;
+import com.mrv.bean.RecycleVModel;
+import com.urv.adapter.BaseRVAdapter;
+import com.urv.adapter.BaseViewHolder;
 
 import java.util.List;
 
@@ -18,11 +18,11 @@ import java.util.List;
  *
  * @author gzejia 978862664@qq.com
  */
-public class TestAdapter extends BaseRVAdapter<TestModel> {
+public class RecycleVAdapter extends BaseRVAdapter<RecycleVModel> {
 
     private int mLayoutId;
 
-    public TestAdapter(Context context, @NonNull List list, int layoutId) {
+    public RecycleVAdapter(Context context, @NonNull List list, int layoutId) {
         super(context, list);
         this.mLayoutId = layoutId;
     }
@@ -33,8 +33,7 @@ public class TestAdapter extends BaseRVAdapter<TestModel> {
     }
 
     @Override
-    public void onBind(BaseViewHolder holder, int position) {
-        TestModel model = getData(position);
+    public void onBind(BaseViewHolder holder, int position, RecycleVModel model) {
         TextView mStrTv = holder.getTextView(R.id.item_tv);
 
         mStrTv.setText(model.text);

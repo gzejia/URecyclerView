@@ -27,4 +27,10 @@
           android:orderInCategory="90"
           android:icon="@drawable/btn_item_refresh"
           app:showAsAction="always" />
+
+    <item android:id="@+id/action_clean"
+          android:title="@string/item_refresh"
+          android:orderInCategory="90"
+          android:icon="@drawable/svg_item_clean"
+          app:showAsAction="always" />
 </menu>

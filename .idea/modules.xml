@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/MyRecycleView.iml" filepath="$PROJECT_DIR$/MyRecycleView.iml" />
+      <module fileurl="file://$PROJECT_DIR$/URecyclerView.iml" filepath="$PROJECT_DIR$/URecyclerView.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/urv-library/urv-library.iml" filepath="$PROJECT_DIR$/urv-library/urv-library.iml" />
     </modules>
   </component>
 </project>

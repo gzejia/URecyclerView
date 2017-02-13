@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:mrv="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:mrv="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/main_sw_ly"
@@ -15,14 +14,13 @@
             android:id="@+id/main_rv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            mrv:colors="@array/refresh_colors"
             mrv:divider_background="@color/white"
             mrv:divider_drawable="@drawable/recycle_view_divider"
             mrv:divider_marginLeft="16dp"
             mrv:divider_marginRight="16dp"
             mrv:emptyType="text"
-            mrv:loadMoreType="auto"
-            mrv:orientation="horizontal"
+            mrv:colors="@array/refresh_colors"
+            mrv:loadMoreType="click"
             mrv:textDataEmpty="@string/text_data_empty"
             mrv:textNetworkFail="@string/text_network_fail"/>
 

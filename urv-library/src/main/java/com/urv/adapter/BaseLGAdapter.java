@@ -1,4 +1,4 @@
-package com.mrv.role;
+package com.urv.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -109,29 +109,65 @@ public abstract class BaseLGAdapter<T> extends BaseAdapter {
         notifyDataSetChanged();
     }
 
+    /**
+     * 获取列表项总数
+     *
+     * @return Item总数
+     */
     @Override
     public int getCount() {
         return mList.size();
     }
 
+    /**
+     * 获取列表项数据
+     *
+     * @param position 数据索引
+     * @return 数据对象
+     */
     @Override
     public T getItem(int position) {
         return mList.size() > position ? mList.get(position) : null;
     }
 
+    /**
+     * 获取列表项索引
+     *
+     * @param position Item索引
+     * @return Item索引
+     */
     @Override
     public long getItemId(int position) {
         return position;
     }
 
+    /**
+     * 获取列表项视图
+     *
+     * @param position    Item索引
+     * @param convertView 视图对象
+     * @param parent      父容器视图
+     * @return 列表项显示视图
+     */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = LayoutInflater.from(mContext).inflate(getLayoutId(), parent, false);
-        onBind(new BaseViewHolder(view), position);
+        onBind(new BaseViewHolder(view), position, getItem(position));
         return view;
     }
 
+    /**
+     * 指定显示列表项显示视图布局Id
+     *
+     * @return 视图布局Id
+     */
     protected abstract int getLayoutId();
 
-    protected abstract void onBind(BaseViewHolder holder, int position);
+    /**
+     * 列表项视图及内容绑定
+     * @param holder 已绑定ViewHolder
+     * @param position Item索引
+     * @param object 对象
+     */
+    protected abstract void onBind(BaseViewHolder holder, int position, T object);
 }
